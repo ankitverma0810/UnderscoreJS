@@ -23,24 +23,24 @@
         <script src="js/sampleData.js"></script>
         <script>
             $(window).load(function() {
-                var container = $('#container'),
-                    array1 = [0,1,2,3,4,5,6,7,8,9],
-                    array2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
-                    array3 = [2,4,6,8,10,12,14];
+                var container = $('#container');
 
-                //without function: return the given array without the values mentioned in the function
-                var result = '<p>Without: '+_.without(array1, 0,2,3)+'</p>';
+                //extend: to add any new property into existing object
+                _.each(students, function(elem, indx, list) {
+                    var avg = (elem.midterm_score + elem.final_score) / 2;
+                    _.extend(elem, { 'average_score' : avg });
+                });
+                console.log(students);
 
-                //union function: combine 2 arrays
-                result += '<p>Union: '+_.union(array1, array2)+'</p>';
+                //default Values: Add default values to new objects
+                var defaultValues = { final_score: 0, midterm_score: 0, grade: 9 };
+                var newStudent = { firstname: 'John', lastname: 'Doe' };
+                _.defaults(newStudent, defaultValues);
+                console.log(newStudent);
 
-                //intersection function: show common values in both the arrays
-                result += '<p>Intersection: '+_.intersection(array1, array3)+'</p>';
-
-                //difference function: show values not present in other array
-                result += '<p>Difference: '+_.difference(array1, array3)+'</p>';
-
-                container.html(container.html() + result);
+                //clone: Copy the given object
+                var copyStudent = _.clone(students[0]);
+                console.log(copyStudent);
             });
         </script>
     </body>

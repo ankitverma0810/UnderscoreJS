@@ -23,24 +23,34 @@
         <script src="js/sampleData.js"></script>
         <script>
             $(window).load(function() {
-                var container = $('#container'),
-                    array1 = [0,1,2,3,4,5,6,7,8,9],
-                    array2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
-                    array3 = [2,4,6,8,10,12,14];
+                var container = $('#container');
 
-                //without function: return the given array without the values mentioned in the function
-                var result = '<p>Without: '+_.without(array1, 0,2,3)+'</p>';
+                //uniqueId with and without prefix
+                var sID = _.uniqueId(),
+                    pID = _.uniqueId('prefix_');
 
-                //union function: combine 2 arrays
-                result += '<p>Union: '+_.union(array1, array2)+'</p>';
+                container.html( container.html() + '<p>Unique Id: '+sID+'</p>' );
+                container.html( container.html() + '<p>Unique Id: '+pID+'</p>' );
 
-                //intersection function: show common values in both the arrays
-                result += '<p>Intersection: '+_.intersection(array1, array3)+'</p>';
+                //random number
+                var rand1 = _.random(25),
+                    rand2 = _.random(100, 200);
 
-                //difference function: show values not present in other array
-                result += '<p>Difference: '+_.difference(array1, array3)+'</p>';
+                container.html( container.html() + '<p>Random number 1: '+rand1+'</p>' );
+                container.html( container.html() + '<p>Random number 2: '+rand2+'</p>' );
 
-                container.html(container.html() + result);
+                //times function: same as for loop
+                _.times(5, function(n) {
+                    container.html( container.html() + '<p>Time: '+n+'</p>' );
+                });
+
+                //mixin: to create custom global underscore functions
+                _.mixin({
+                    capitalize: function(string) {
+                        return string.charAt(0).toUpperCase() + string.substring(1).toLowerCase();
+                    }
+                });
+                 container.html( container.html() + '<p>Mixin: '+_.capitalize('cApItAlIzE')+'</p>' );
             });
         </script>
     </body>
