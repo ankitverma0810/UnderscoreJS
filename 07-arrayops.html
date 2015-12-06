@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+        <title>Underscore</title>
+        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+        <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+            <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+        <![endif]-->
+    </head>
+    <body>
+        <h1>Iterating Collections with Underscore</h1>
+        <h2>Student Information:</h2>
+        <h3 id="numstudents">Number of students: </h3>
+        <div id="container"></div>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/underscore-min.js"></script>
+        <script src="js/sampleData.js"></script>
+        <script>
+            $(window).load(function() {
+                var container = $('#container'),
+                    array1 = [0,1,2,3,4,5,6,7,8,9],
+                    array2 = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J'],
+                    array3 = [2,4,6,8,10,12,14];
+
+                //without function
+                var result = '<p>Without: '+_.without(array1, 0,2,3)+'</p>';
+
+                //union function: combine 2 arrays
+                result += '<p>Union: '+_.union(array1, array2)+'</p>';
+
+                //intersection function: show common values in both the arrays
+                result += '<p>Intersection: '+_.intersection(array1, array3)+'</p>';
+
+                //difference function: show values not present in other array
+                result += '<p>Difference: '+_.difference(array1, array3)+'</p>';
+
+                container.html(container.html() + result);
+            });
+        </script>
+    </body>
+</html>
