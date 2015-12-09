@@ -63,30 +63,85 @@
                 init: function() {
                     this.bindEvents();
                     this.dataset = students;
-                    this.template = 'studentInfoTable';
+                    this.template = _.template(studentInfoTable);
 
                     // start by extending the data to average the midterm and final scores
                     _.each(students, function(elem, indx) {
                         _.extend(elem, {overall_score : (elem.midterm_score + elem.final_score) / 2});
                     });
 
-                    this.render(studentInfoTable);
+                    this.render();
                 },
                 bindEvents: function() {
-                    $('#schoolSelect').on('change', this.updateDisplay);
-                    $('#sortBy').on('change', this.updateDisplay);
-                    $('#templateSelect').on('change', this.updateTemplate);
-                    $('#gr9').on('click', this.updateDisplay);
-                    $('#gr10').on('click', this.updateDisplay);
-                    $('#gr11').on('click', this.updateDisplay);
-                    $('#gr12').on('click', this.updateDisplay);
+                    $('#schoolSelect').on('change', this.render);
+                    $('#sortBy').on('change', this.render);
+                    $('#templateSelect').on('change', this.render);
+                    $('#gr9').on('click', this.render);
+                    $('#gr10').on('click', this.render);
+                    $('#gr11').on('click', this.render);
+                    $('#gr12').on('click', this.render);
                 },
                 updateTemplate: function() {
-                    app.template = $('#templateSelect').val();
-                    app.render();
+                    var el = $('#templateSelect');
+                    this.template = _.template( window[el.val()] );
+                },
+                filterSchool: function() {
+                    var el = $('#schoolSelect'),
+                        index = el[0].selectedIndex;
+
+                    if( index > 0 ) {
+                        this.dataset =  _.filter(students, function(student) {
+                            return ( student.school === el.val() );
+                        });
+                    } else {
+                        this.dataset = students;
+                    }
+                },
+                sortByScore: function() {
+                    var el = $('#sortBy'),
+                        index = el[0].selectedIndex;
+
+                    this.dataset = _.sortBy( this.dataset, el.val() );
+                },
+                filterGrade: function() {
+                    var grade9 = $('#gr9'),
+                        grade10 = $('#gr10'),
+                        grade11 = $('#gr11'),
+                        grade12 = $('#gr12');
+
+                    if( !grade9.is(':checked') ) {
+                        this.dataset = _.reject(this.dataset, function(student) {
+                            return ( student.grade === 9 );
+                        });
+                    }
+
+                    if( !grade10.is(':checked') ) {
+                        this.dataset = _.reject(this.dataset, function(student) {
+                            return ( student.grade === 10 );
+                        });
+                    }
+
+                    if( !grade11.is(':checked') ) {
+                        this.dataset = _.reject(this.dataset, function(student) {
+                            return ( student.grade === 11 );
+                        });
+                    }
+
+                    if( !grade12.is(':checked') ) {
+                        this.dataset = _.reject(this.dataset, function(student) {
+                            return ( student.grade === 12 );
+                        });
+                    }
+                },
+                beforeRender: function() {
+                    this.updateTemplate();
+                    this.filterSchool();
+                    this.sortByScore();
+                    this.filterGrade();
                 },
                 render: function() {
-                    var result = _.template(window[this.template], students);
+                    app.beforeRender();
+                    var result = app.template({ dataset: app.dataset });
                     $('#container').html(result);
                 }
             };

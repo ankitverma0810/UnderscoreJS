@@ -1,6 +1,6 @@
     var studentInfoTable = "<table><thead><th>Last Name</th><th>First Name</th><th>School</th><th>Grade</th><th>Overall Score</th>" + 
                       "</thead><tbody>" +
-                      "<% _.each(students, function(item) { %>" + 
+                      "<% _.each(dataset, function(item) { %>" + 
                       "<tr class='studentRec " +
                         "<% (item.overall_score >= 65) ? print('passingStudent') : print('failingStudent') %>'>" +
                         "<td class='lastname'><%= item.lastname %></td><td class='firstname'><%= item.firstname %> </td>" +
@@ -9,7 +9,7 @@
                       "<% }); %>" +
                       "</tbody></table>";
 
-    var studentInfoCards = "<% _.each(students, function(item) { %>" + 
+    var studentInfoCards = "<% _.each(dataset, function(item) { %>" + 
                           "<div class='studentCard " +
                             "<% (item.overall_score >= 65) ? print('passingStudent') : print('failingStudent') %>'>" +
                             "<div class='particulars'> " + 
